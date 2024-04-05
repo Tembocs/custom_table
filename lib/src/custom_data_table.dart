@@ -17,6 +17,27 @@ class CustomTable extends StatefulWidget {
     this.columnWidths,
   });
 
+  // New constructor for handling List<Map<String, String>> data.
+  CustomTable.fromMapList({
+    super.key,
+    required List<String> columns,
+    required List<Map<String, String>> mapList,
+    EdgeInsetsGeometry? padding,
+    double rowHeight = 40.0,
+    List<double>? columnWidths,
+  })  : this.padding = padding,
+        this.rowHeight = rowHeight,
+        this.columnWidths = columnWidths,
+        this.columns = columns,
+        data = mapList.map<List<TableRowData>>((map) {
+          return columns.map<TableRowData>((column) {
+            return TableRowData(
+              column,
+              Text(map[column] ?? ''),
+            );
+          }).toList();
+        }).toList();
+
   @override
   State createState() => _CustomTableState();
 }
