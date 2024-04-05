@@ -7,6 +7,7 @@ class CustomTable extends StatefulWidget {
   final List<List<TableRowData>> data;
   final double rowHeight;
   final List<double> columnWidths;
+  final bool showVerticalDivider;
 
   const CustomTable({
     super.key,
@@ -15,6 +16,7 @@ class CustomTable extends StatefulWidget {
     this.padding = EdgeInsets.zero, // Default padding set to zero
     this.rowHeight = 40.0,
     this.columnWidths = const [], // Default to an empty list
+    this.showVerticalDivider = false,
   });
 
   CustomTable.fromMapList({
@@ -24,6 +26,7 @@ class CustomTable extends StatefulWidget {
     EdgeInsetsGeometry padding = EdgeInsets.zero,
     double rowHeight = 40.0,
     List<double> columnWidths = const [],
+    this.showVerticalDivider = false,
   })  : this.padding = padding,
         this.rowHeight = rowHeight,
         this.columnWidths = columnWidths,
@@ -55,20 +58,47 @@ class _CustomTableState extends State<CustomTable> {
   }
 
   Widget _buildTableRow(List<TableRowData> rowData, int index) {
+    List<Widget> rowChildren = [];
+
+    for (int i = 0; i < rowData.length; i++) {
+      if (widget.showVerticalDivider && i > 0) {
+        // Add a vertical divider before each cell except the first
+        rowChildren.add(
+          const VerticalDivider(
+            color: Colors.grey,
+            width: 1,
+          ),
+        );
+      }
+      // Add the cell
+      rowChildren.add(Expanded(
+        flex: _getColumnFlex(i),
+        child: rowData[i].value,
+      ));
+    }
+
     return Container(
       height: widget.rowHeight,
       color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
-      child: Row(
-        children: rowData.map((cellData) {
-          final colIndex = rowData.indexOf(cellData);
-          return Expanded(
-            flex: _getColumnFlex(colIndex),
-            child: cellData.value,
-          );
-        }).toList(),
-      ),
+      child: Row(children: rowChildren),
     );
   }
+
+  // Widget _buildTableRow(List<TableRowData> rowData, int index) {
+  //   return Container(
+  //     height: widget.rowHeight,
+  //     color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
+  //     child: Row(
+  //       children: rowData.map((cellData) {
+  //         final colIndex = rowData.indexOf(cellData);
+  //         return Expanded(
+  //           flex: _getColumnFlex(colIndex),
+  //           child: cellData.value,
+  //         );
+  //       }).toList(),
+  //     ),
+  //   );
+  // }
 
   int _getColumnFlex(int index) {
     if (index < widget.columnWidths.length) {
