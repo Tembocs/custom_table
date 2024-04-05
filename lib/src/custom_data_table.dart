@@ -124,12 +124,14 @@ class _CustomTableState extends State<CustomTable> {
         children: [
           const Divider(
             color: Colors.grey,
-            thickness: 1.0,
+            thickness: 0.5,
+            height: 0.5,
           ),
           _buildTableHeader(),
           const Divider(
             color: Colors.grey,
             thickness: 0.5,
+            height: 0.5,
           ),
           Expanded(
             child: ListView.separated(
