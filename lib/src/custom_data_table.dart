@@ -29,13 +29,19 @@ class CustomTable extends StatefulWidget {
         this.rowHeight = rowHeight,
         this.columnWidths = columnWidths,
         this.columns = columns,
-        this.data = mapList.map<List<TableRowData>>((map) {
-          return columns.map<TableRowData>((columnName) {
-            // Now correctly initializing TableRowData with columnName and value
-            return TableRowData(
-              columnName,
-              Text(map[columnName] ?? 'N/A'),
-            );
+        // this.data = mapList.map<List<TableRowData>>((map) {
+        //   return columns.map<TableRowData>((columnName) {
+        //     // Now correctly initializing TableRowData with columnName and value
+        //     return TableRowData(
+        //       columnName,
+        //       Text(map[columnName] ?? 'N/A'),
+        //     );
+        //   }).toList();
+        // }).toList();
+        this.data = mapList.map((aMap) {
+          return aMap.entries.map((entry) {
+            // Creating a TableRowData for each entry
+            return TableRowData(entry.key, Text(entry.value));
           }).toList();
         }).toList();
 
