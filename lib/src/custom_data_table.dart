@@ -73,12 +73,14 @@ class _CustomTableState extends State<CustomTable> {
       // Add the cell
       rowChildren.add(Expanded(
         flex: _getColumnFlex(i),
-        child: rowData[i].value,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: rowData[i].value,
+        ),
       ));
     }
 
     return Container(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       height: widget.rowHeight,
       color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
       child: Row(children: rowChildren),
