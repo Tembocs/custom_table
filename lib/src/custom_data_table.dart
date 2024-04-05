@@ -29,11 +29,12 @@ class CustomTable extends StatefulWidget {
         this.rowHeight = rowHeight,
         this.columnWidths = columnWidths,
         this.columns = columns,
-        data = mapList.map<List<TableRowData>>((map) {
-          return columns.map<TableRowData>((column) {
+        this.data = mapList.map<List<TableRowData>>((map) {
+          return columns.map<TableRowData>((columnName) {
+            // Now correctly initializing TableRowData with columnName and value
             return TableRowData(
-              column,
-              Text(map[column] ?? ''),
+              columnName,
+              Text(map[columnName] ?? 'N/A'),
             );
           }).toList();
         }).toList();
