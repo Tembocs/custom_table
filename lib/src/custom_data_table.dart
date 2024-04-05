@@ -78,27 +78,12 @@ class _CustomTableState extends State<CustomTable> {
     }
 
     return Container(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       height: widget.rowHeight,
       color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
       child: Row(children: rowChildren),
     );
   }
-
-  // Widget _buildTableRow(List<TableRowData> rowData, int index) {
-  //   return Container(
-  //     height: widget.rowHeight,
-  //     color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
-  //     child: Row(
-  //       children: rowData.map((cellData) {
-  //         final colIndex = rowData.indexOf(cellData);
-  //         return Expanded(
-  //           flex: _getColumnFlex(colIndex),
-  //           child: cellData.value,
-  //         );
-  //       }).toList(),
-  //     ),
-  //   );
-  // }
 
   int _getColumnFlex(int index) {
     if (index < widget.columnWidths.length) {
