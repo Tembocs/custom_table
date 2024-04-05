@@ -9,6 +9,7 @@ class CustomTable extends StatefulWidget {
   final double rowHeight;
   final List<double> columnWidths;
   final bool showVerticalDivider;
+  final bool boldHeaderLabels;
 
   const CustomTable({
     super.key,
@@ -17,8 +18,9 @@ class CustomTable extends StatefulWidget {
     this.tablePadding = EdgeInsets.zero,
     this.cellPadding = const EdgeInsets.only(left: 10.0),
     this.rowHeight = 40.0,
-    this.columnWidths = const [], // Default to an empty list
+    this.columnWidths = const [],
     this.showVerticalDivider = false,
+    this.boldHeaderLabels = true,
   });
 
   CustomTable.fromMapList({
@@ -30,6 +32,7 @@ class CustomTable extends StatefulWidget {
     double rowHeight = 40.0,
     List<double> columnWidths = const [],
     this.showVerticalDivider = false,
+    this.boldHeaderLabels = true,
   })  : this.tablePadding = tablePadding,
         this.cellPadding = cellPadding,
         this.rowHeight = rowHeight,
@@ -55,7 +58,7 @@ class _CustomTableState extends State<CustomTable> {
         headerChildren.add(
           const VerticalDivider(
             color: Colors.grey,
-            width: 1,
+            width: 0.5,
             thickness: 0.5,
           ),
         );
@@ -65,7 +68,12 @@ class _CustomTableState extends State<CustomTable> {
         flex: _getColumnFlex(i),
         child: Padding(
           padding: widget.cellPadding,
-          child: Text(widget.columns[i]),
+          child: Text(widget.columns[i],
+              style: TextStyle(
+                fontWeight: widget.boldHeaderLabels
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+              )),
         ),
       ));
     }
@@ -86,6 +94,7 @@ class _CustomTableState extends State<CustomTable> {
           const VerticalDivider(
             color: Colors.grey,
             width: 0.5,
+            thickness: 0.5,
           ),
         );
       }
