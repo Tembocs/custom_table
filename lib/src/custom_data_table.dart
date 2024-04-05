@@ -103,6 +103,7 @@ class _CustomTableState extends State<CustomTable> {
               },
               separatorBuilder: (context, index) => const Divider(
                 color: Colors.grey,
+                thickness: 0.5,
                 height: 0.5,
               ),
             ),
