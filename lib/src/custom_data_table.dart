@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'table_row_data.dart';
 
 class CustomTable extends StatefulWidget {
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry tablePadding;
+  final EdgeInsetsGeometry cellPadding;
   final List<String> columns;
   final List<List<TableRowData>> data;
   final double rowHeight;
@@ -13,7 +14,8 @@ class CustomTable extends StatefulWidget {
     super.key,
     required this.columns,
     required this.data,
-    this.padding = EdgeInsets.zero, // Default padding set to zero
+    this.tablePadding = EdgeInsets.zero,
+    this.cellPadding = const EdgeInsets.all(10.0),
     this.rowHeight = 40.0,
     this.columnWidths = const [], // Default to an empty list
     this.showVerticalDivider = false,
@@ -23,11 +25,13 @@ class CustomTable extends StatefulWidget {
     super.key,
     required List<String> columns,
     required List<Map<String, String>> mapList,
-    EdgeInsetsGeometry padding = EdgeInsets.zero,
+    EdgeInsetsGeometry tablePadding = EdgeInsets.zero,
+    EdgeInsetsGeometry cellPadding = const EdgeInsets.all(10.0),
     double rowHeight = 40.0,
     List<double> columnWidths = const [],
     this.showVerticalDivider = false,
-  })  : this.padding = padding,
+  })  : this.tablePadding = tablePadding,
+        this.cellPadding = cellPadding,
         this.rowHeight = rowHeight,
         this.columnWidths = columnWidths,
         this.columns = columns,
@@ -43,17 +47,32 @@ class CustomTable extends StatefulWidget {
 
 class _CustomTableState extends State<CustomTable> {
   Widget _buildTableHeader() {
+    List<Widget> headerChildren = [];
+
+    for (int i = 0; i < widget.columns.length; i++) {
+      if (widget.showVerticalDivider && i > 0) {
+        // Add a vertical divider before each header cell except the first
+        headerChildren.add(
+          const VerticalDivider(
+            color: Colors.grey,
+            width: 1,
+            thickness: 0.5,
+          ),
+        );
+      }
+      // Add the header cell
+      headerChildren.add(Expanded(
+        flex: _getColumnFlex(i),
+        child: Padding(
+          padding: widget.cellPadding,
+          child: Text(widget.columns[i]),
+        ),
+      ));
+    }
+
     return SizedBox(
       height: widget.rowHeight,
-      child: Row(
-        children: widget.columns.map((columnName) {
-          final index = widget.columns.indexOf(columnName);
-          return Expanded(
-            flex: _getColumnFlex(index),
-            child: Text(columnName),
-          );
-        }).toList(),
-      ),
+      child: Row(children: headerChildren),
     );
   }
 
@@ -66,7 +85,7 @@ class _CustomTableState extends State<CustomTable> {
         rowChildren.add(
           const VerticalDivider(
             color: Colors.grey,
-            width: 1,
+            width: 0.5,
           ),
         );
       }
@@ -74,7 +93,7 @@ class _CustomTableState extends State<CustomTable> {
       rowChildren.add(Expanded(
         flex: _getColumnFlex(i),
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
+          padding: widget.cellPadding,
           child: rowData[i].value,
         ),
       ));
@@ -99,7 +118,7 @@ class _CustomTableState extends State<CustomTable> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding,
+      padding: widget.tablePadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
