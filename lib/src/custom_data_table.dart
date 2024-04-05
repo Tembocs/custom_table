@@ -15,7 +15,7 @@ class CustomTable extends StatefulWidget {
     required this.columns,
     required this.data,
     this.tablePadding = EdgeInsets.zero,
-    this.cellPadding = const EdgeInsets.all(10.0),
+    this.cellPadding = const EdgeInsets.only(left: 10.0),
     this.rowHeight = 40.0,
     this.columnWidths = const [], // Default to an empty list
     this.showVerticalDivider = false,
@@ -26,7 +26,7 @@ class CustomTable extends StatefulWidget {
     required List<String> columns,
     required List<Map<String, String>> mapList,
     EdgeInsetsGeometry tablePadding = EdgeInsets.zero,
-    EdgeInsetsGeometry cellPadding = const EdgeInsets.all(10.0),
+    EdgeInsetsGeometry cellPadding = const EdgeInsets.only(left: 10.0),
     double rowHeight = 40.0,
     List<double> columnWidths = const [],
     this.showVerticalDivider = false,
